@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHer - AI Safety Layer for Women</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader">
+            <div class="shield-icon">
+                <i class="fas fa-shield-heart"></i>
+            </div>
+            <h2>SafeHer</h2>
+            <p>Your Safety, Our Priority</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Pages -->
+    <div id="auth-container" class="auth-container hidden">
+        <!-- Login Page -->
+        <div id="login-page" class="auth-page">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-shield-heart"></i>
+                    <h1>SafeHer</h1>
+                </div>
+                <p>AI-Powered Women Safety Platform</p>
+            </div>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <p class="auth-switch">Don't have an account? <a href="#" id="show-register">Register</a></p>
+            </form>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="auth-page hidden">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-shield-heart"></i>
+                    <h1>SafeHer</h1>
+                </div>
+                <p>Create Your Safety Account</p>
+            </div>
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="register-name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="register-email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="register-phone">Phone Number</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="register-phone" placeholder="Enter phone number (10-15 digits)" minlength="10" maxlength="15" required>
+                    </div>
+                    <small class="hint">Enter 10-15 digit phone number</small>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="register-password" placeholder="Create a password" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="hint">Must contain uppercase, lowercase, and number</small>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="register-confirm" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                <p class="auth-switch">Already have an account? <a href="#" id="show-login">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <button id="menu-toggle" class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo-small">
+                    <i class="fas fa-shield-heart"></i>
+                    <span>SafeHer</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="risk-indicator" id="risk-indicator">
+                    <span class="risk-dot"></span>
+                    <span class="risk-text">Safe</span>
+                </div>
+                <button id="notification-btn" class="icon-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                <div class="user-avatar" id="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Side Navigation -->
+        <nav id="side-nav" class="side-nav">
+            <div class="nav-header">
+                <div class="user-info">
+                    <div class="avatar-large">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 id="nav-user-name">User Name</h3>
+                    <p id="nav-user-email">user@email.com</p>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </li>
+                <li class="nav-item" data-page="emergency">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Emergency</span>
+                </li>
+                <li class="nav-item" data-page="contacts">
+                    <i class="fas fa-users"></i>
+                    <span>Emergency Contacts</span>
+                </li>
+                <li class="nav-item" data-page="safety">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Safety Map</span>
+                </li>
+                <li class="nav-item" data-page="history">
+                    <i class="fas fa-history"></i>
+                    <span>History</span>
+                </li>
+                <li class="nav-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </li>
+            </ul>
+            <div class="nav-footer">
+                <button id="logout-btn" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Overlay for side nav -->
+        <div id="nav-overlay" class="nav-overlay"></div>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Home Page -->
+            <section id="page-home" class="page active">
+                <div class="home-container">
+                    <!-- SOS Button -->
+                    <div class="sos-section">
+                        <button id="sos-button" class="sos-button">
+                            <div class="sos-ripple"></div>
+                            <div class="sos-inner">
+                                <i class="fas fa-exclamation"></i>
+                                <span>SOS</span>
+                            </div>
+                        </button>
+                        <p class="sos-hint">Press and hold for 3 seconds to activate emergency</p>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="actions-grid">
+                            <button class="action-card" id="action-silent-sos">
+                                <div class="action-icon silent">
+                                    <i class="fas fa-volume-mute"></i>
+                                </div>
+                                <span>Silent SOS</span>
+                            </button>
+                            <button class="action-card" id="action-fake-call">
+                                <div class="action-icon call">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <span>Fake Call</span>
+                            </button>
+                            <button class="action-card" id="action-share-location">
+                                <div class="action-icon location">
+                                    <i class="fas fa-share-alt"></i>
+                                </div>
+                                <span>Share Location</span>
+                            </button>
+                            <button class="action-card" id="action-record">
+                                <div class="action-icon record">
+                                    <i class="fas fa-video"></i>
+                                </div>
+                                <span>Record</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Status Card -->
+                    <div class="status-card" id="status-card">
+                        <div class="status-header">
+                            <h3>Current Status</h3>
+                            <span class="status-badge safe" id="status-badge">Safe</span>
+                        </div>
+                        <div class="status-details">
+                            <div class="status-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <span class="label">Current Location</span>
+                                    <span class="value" id="current-location">Fetching location...</span>
+                                </div>
+                            </div>
+                            <div class="status-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <span class="label">Last Check</span>
+                                    <span class="value" id="last-check">Just now</span>
+                                </div>
+                            </div>
+                            <div class="status-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <span class="label">Risk Level</span>
+                                    <span class="value risk-level" id="risk-level">Low</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nearby Safe Zones -->
+                    <div class="safe-zones-card">
+                        <div class="card-header">
+                            <h3>Nearby Safe Zones</h3>
+                            <a href="#" class="view-all" data-page="safety">View All</a>
+                        </div>
+                        <div class="zones-list" id="safe-zones-list">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emergency Page -->
+            <section id="page-emergency" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Emergency Center</h2>
+                </div>
+                <div class="emergency-content">
+                    <!-- Active Emergency Alert -->
+                    <div id="active-emergency" class="active-emergency hidden">
+                        <div class="emergency-alert">
+                            <div class="alert-icon pulsing">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <h3>Emergency Active</h3>
+                            <p id="emergency-status-text">Alerting emergency contacts...</p>
+                            <div class="emergency-timer" id="emergency-timer">00:00</div>
+                            <div class="emergency-actions">
+                                <button id="cancel-emergency" class="btn btn-outline">
+                                    <i class="fas fa-times"></i> Cancel Emergency
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Options -->
+                    <div id="emergency-options" class="emergency-options">
+                        <div class="emergency-type-grid">
+                            <button class="emergency-type-card" data-type="manual_sos">
+                                <div class="type-icon danger">
+                                    <i class="fas fa-hand-paper"></i>
+                                </div>
+                                <h4>Manual SOS</h4>
+                                <p>Alert contacts and authorities immediately</p>
+                            </button>
+                            <button class="emergency-type-card" data-type="silent_sos">
+                                <div class="type-icon warning">
+                                    <i class="fas fa-user-secret"></i>
+                                </div>
+                                <h4>Silent SOS</h4>
+                                <p>Discreet alert without visible signs</p>
+                            </button>
+                            <button class="emergency-type-card" data-type="panic_button">
+                                <div class="type-icon critical">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <h4>Panic Mode</h4>
+                                <p>Maximum alert with live streaming</p>
+                            </button>
+                        </div>
+
+                        <div class="emergency-helplines">
+                            <h3>Emergency Helplines</h3>
+                            <div class="helpline-list">
+                                <a href="tel:112" class="helpline-item">
+                                    <div class="helpline-icon">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <div class="helpline-info">
+                                        <span class="name">Emergency Services</span>
+                                        <span class="number">112</span>
+                                    </div>
+                                </a>
+                                <a href="tel:181" class="helpline-item">
+                                    <div class="helpline-icon women">
+                                        <i class="fas fa-female"></i>
+                                    </div>
+                                    <div class="helpline-info">
+                                        <span class="name">Women Helpline</span>
+                                        <span class="number">181</span>
+                                    </div>
+                                </a>
+                                <a href="tel:100" class="helpline-item">
+                                    <div class="helpline-icon police">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="helpline-info">
+                                        <span class="name">Police</span>
+                                        <span class="number">100</span>
+                                    </div>
+                                </a>
+                                <a href="tel:1091" class="helpline-item">
+                                    <div class="helpline-icon">
+                                        <i class="fas fa-hands-helping"></i>
+                                    </div>
+                                    <div class="helpline-info">
+                                        <span class="name">Women in Distress</span>
+                                        <span class="number">1091</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emergency Contacts Page -->
+            <section id="page-contacts" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-users"></i> Emergency Contacts</h2>
+                    <button id="add-contact-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Contact
+                    </button>
+                </div>
+                <div class="contacts-content">
+                    <div class="contacts-list" id="contacts-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                    <div class="empty-state" id="no-contacts">
+                        <i class="fas fa-user-friends"></i>
+                        <h3>No Emergency Contacts</h3>
+                        <p>Add trusted contacts who will be notified during emergencies</p>
+                        <button class="btn btn-primary" id="add-first-contact">
+                            <i class="fas fa-plus"></i> Add Your First Contact
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Safety Map Page -->
+            <section id="page-safety" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-map-marker-alt"></i> Safety Map</h2>
+                </div>
+                <div class="safety-content">
+                    <div class="map-container" id="map-container">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <p>Map loading...</p>
+                        </div>
+                    </div>
+                    <div class="safety-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="police">Police Stations</button>
+                        <button class="filter-btn" data-filter="hospital">Hospitals</button>
+                        <button class="filter-btn" data-filter="safe-zone">Safe Zones</button>
+                    </div>
+                    <div class="nearby-places" id="nearby-places">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Page -->
+            <section id="page-history" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-history"></i> Activity History</h2>
+                </div>
+                <div class="history-content">
+                    <div class="history-tabs">
+                        <button class="tab-btn active" data-tab="emergencies">Emergencies</button>
+                        <button class="tab-btn" data-tab="locations">Locations</button>
+                        <button class="tab-btn" data-tab="reports">Reports</button>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Page -->
+            <section id="page-settings" class="page">
+                <div class="page-header">
+                    <h2><i class="fas fa-cog"></i> Settings</h2>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-section">
+                        <h3>Profile</h3>
+                        <div class="profile-card">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user"></i>
+                                <button class="edit-avatar">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <div class="profile-info">
+                                <input type="text" id="settings-name" placeholder="Full Name">
+                                <input type="email" id="settings-email" placeholder="Email" disabled>
+                                <input type="tel" id="settings-phone" placeholder="Phone Number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Safety Settings</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Auto SOS Detection</span>
+                                <span class="setting-desc">Automatically detect threats using AI</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="auto-sos" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Silent Mode</span>
+                                <span class="setting-desc">No visible/audible alerts when triggered</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="silent-mode">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Location Sharing</span>
+                                <span class="setting-desc">Share real-time location with contacts</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="location-sharing" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label">Audio Detection</span>
+                                <span class="setting-desc">Detect distress sounds automatically</span>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="audio-detection" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Medical Information</h3>
+                        <div class="medical-form">
+                            <div class="form-group">
+                                <label>Blood Group</label>
+                                <select id="blood-group">
+                                    <option value="">Select Blood Group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Medical Conditions</label>
+                                <textarea id="medical-conditions" placeholder="Any allergies or medical conditions..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <button id="save-settings" class="btn btn-primary btn-full">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button id="delete-account" class="btn btn-danger btn-full">
+                            <i class="fas fa-trash"></i> Delete Account
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Contact Modal -->
+    <div id="contact-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="contact-modal-title">Add Emergency Contact</h3>
+                <button class="modal-close" id="close-contact-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="contact-form" class="modal-form">
+                <input type="hidden" id="contact-id">
+                <div class="form-group">
+                    <label for="contact-name">Name</label>
+                    <input type="text" id="contact-name" placeholder="Contact name" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-phone">Phone Number</label>
+                    <input type="tel" id="contact-phone" placeholder="Phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-email">Email (Optional)</label>
+                    <input type="email" id="contact-email" placeholder="Email address">
+                </div>
+                <div class="form-group">
+                    <label for="contact-relationship">Relationship</label>
+                    <select id="contact-relationship">
+                        <option value="">Select relationship</option>
+                        <option value="parent">Parent</option>
+                        <option value="spouse">Spouse</option>
+                        <option value="sibling">Sibling</option>
+                        <option value="friend">Friend</option>
+                        <option value="relative">Relative</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="contact-primary">
+                        <span>Set as primary contact</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="contact-sos" checked>
+                        <span>Notify on SOS</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="contact-location" checked>
+                        <span>Share my location</span>
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-contact">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Contact</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Fake Call Modal -->
+    <div id="fake-call-modal" class="modal hidden">
+        <div class="modal-content fake-call-content">
+            <div class="incoming-call">
+                <div class="caller-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="caller-name">Mom</h3>
+                <p class="call-status">Incoming call...</p>
+                <div class="call-actions">
+                    <button class="call-btn decline" id="decline-fake-call">
+                        <i class="fas fa-phone-slash"></i>
+                    </button>
+                    <button class="call-btn accept" id="accept-fake-call">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="active-call hidden">
+                <div class="caller-avatar small">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="caller-name">Mom</h3>
+                <p class="call-timer">00:00</p>
+                <div class="call-controls">
+                    <button class="control-btn" id="mute-call">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button class="control-btn" id="speaker-call">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <button class="control-btn end-call" id="end-fake-call">
+                        <i class="fas fa-phone-slash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/emergency.js"></script>
+    <script src="js/contacts.js"></script>
+    <script src="js/safety.js"></script>
+</body>
+</html>
