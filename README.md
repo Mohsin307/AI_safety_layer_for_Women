@@ -35,6 +35,20 @@ AI_safety_layer_for_Women/
 └── docs/                       # Documentation
 ```
 
+## Smart Architecture
+Mobile App / Smart Device
+          ↓
+      FastAPI Backend
+          ↓
+     AI Detection Modules
+   ├── Audio Detection
+   ├── Visual Detection
+   ├── Risk Assessment
+          ↓
+ Emergency Response Engine
+          ↓
+ SOS + Alerts + Evidence
+ 
 ## 🚀 Features
 
 ### Audio Threat Detection
